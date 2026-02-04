@@ -1,12 +1,20 @@
 {
-  "name": "r6.a.06-maintenance---belz-matteo",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "ugsel-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "tools/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:server": "npm run start:dev --workspace=apps/server",
+    "dev:client": "npm run dev --workspace=apps/client",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "turbo": "^1.10.0",
+    "prettier": "^3.0.0",
+    "eslint": "^8.0.0"
+  }
 }
