@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Sport {
+  id       String    @id @default(uuid())
+  nom      String
+  type     SportType
+  epreuves Epreuve[]
+}
+
+enum SportType {
+  INDIV
+  EQUIPE
+  MIXTE
+}
+
+model Championnat {
+  id           String        @id @default(uuid())
+  nom          String
+  competitions Competition[]
+}
+
+model Competition {
+  id            String       @id @default(uuid())
+  nom           String
+  championnatId String?
+  championnat   Championnat? @relation(fields: [championnatId], references: [id])
+  epreuves      Epreuve[]
+}
+
+model Epreuve {
+  id            String      @id @default(uuid())
+  nom           String
+  sportId       String
+  sport         Sport       @relation(fields: [sportId], references: [id])
+  competitionId String
+  competition   Competition @relation(fields: [competitionId], references: [id])
+}
