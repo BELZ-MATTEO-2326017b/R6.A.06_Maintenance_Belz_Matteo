@@ -66,7 +66,12 @@ describe('ChampionnatsService', () => {
 
   describe('findOne', () => {
     it('should return a championnat by id with competitions and sport', async () => {
-      const expected = { id: 'uuid-1', nom: 'Championnat régional', competitions: [], sport: {} };
+      const expected = {
+        id: 'uuid-1',
+        nom: 'Championnat régional',
+        competitions: [],
+        sport: {},
+      };
       mockPrisma.championnat.findUnique.mockResolvedValue(expected);
 
       const result = await service.findOne('uuid-1');
@@ -94,7 +99,9 @@ describe('ChampionnatsService', () => {
 
       const result = await service.remove('uuid-1');
 
-      expect(mockPrisma.championnat.delete).toHaveBeenCalledWith({ where: { id: 'uuid-1' } });
+      expect(mockPrisma.championnat.delete).toHaveBeenCalledWith({
+        where: { id: 'uuid-1' },
+      });
       expect(result).toEqual(expected);
     });
   });

@@ -42,7 +42,9 @@ describe('ChampionnatsController', () => {
 
   describe('findAll', () => {
     it('should return all championnats', async () => {
-      const expected = [{ id: 'uuid-1', nom: 'Championnat régional', competitions: [] }];
+      const expected = [
+        { id: 'uuid-1', nom: 'Championnat régional', competitions: [] },
+      ];
       mockChampionnatsService.findAll.mockResolvedValue(expected);
 
       const result = await controller.findAll();

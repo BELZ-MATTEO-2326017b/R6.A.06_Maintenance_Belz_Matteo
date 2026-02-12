@@ -8,7 +8,7 @@ import { CreateChampionnatDto } from './dto/create-championnat.dto';
  */
 @Controller('championnats')
 export class ChampionnatsController {
-  constructor(private readonly championnatsService: ChampionnatsService) { }
+  constructor(private readonly championnatsService: ChampionnatsService) {}
 
   /**
    * POST /championnats — Crée un nouveau championnat.

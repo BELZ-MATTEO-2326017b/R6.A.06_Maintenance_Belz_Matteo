@@ -8,7 +8,7 @@ import { CreateSportDto } from './dto/create-sport.dto';
  */
 @Controller('sports')
 export class SportsController {
-  constructor(private readonly sportsService: SportsService) { }
+  constructor(private readonly sportsService: SportsService) {}
 
   /**
    * POST /sports — Crée un nouveau sport.

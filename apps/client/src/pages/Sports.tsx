@@ -47,33 +47,67 @@ function Sports() {
     };
 
     return (
-        <div style={{ padding: '2rem' }}>
-            <h2>Gestion des Sports</h2>
+        <div className="page-container fade-in">
+            <header className="page-header">
+                <h2>Gestion des Sports</h2>
+                <p className="page-description">Ajoutez et gérez la liste des sports disponibles.</p>
+            </header>
 
-            <form onSubmit={createSport} style={{ marginBottom: '2rem', display: 'flex', gap: '1rem' }}>
-                <input
-                    value={nom}
-                    onChange={(e) => setNom(e.target.value)}
-                    placeholder="Nom du sport"
-                    required
-                    style={{ padding: '5px' }}
-                />
-                <select value={type} onChange={(e) => setType(e.target.value as any)} style={{ padding: '5px' }}>
-                    <option value="INDIV">Individuel</option>
-                    <option value="EQUIPE">Équipe</option>
-                    <option value="MIXTE">Mixte</option>
-                </select>
-                <button type="submit" style={{ padding: '5px 10px' }}>Ajouter</button>
-            </form>
+            <div className="content-wrapper">
+                <section className="form-section">
+                    <h3>Ajouter un sport</h3>
+                    <form onSubmit={createSport} className="modern-form">
+                        <div className="form-group">
+                            <label htmlFor="nom">Nom du sport</label>
+                            <input
+                                id="nom"
+                                value={nom}
+                                onChange={(e) => setNom(e.target.value)}
+                                placeholder="Ex: Football"
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="type">Type</label>
+                            <select
+                                id="type"
+                                value={type}
+                                onChange={(e) => setType(e.target.value as any)}
+                            >
+                                <option value="INDIV">Individuel</option>
+                                <option value="EQUIPE">Équipe</option>
+                                <option value="MIXTE">Mixte</option>
+                            </select>
+                        </div>
+                        <button type="submit" className="submit-btn">Ajouter le sport</button>
+                    </form>
+                </section>
 
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-                {sports.map((sport) => (
-                    <li key={sport.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', borderBottom: '1px solid #eee' }}>
-                        <span>{sport.nom} ({sport.type})</span>
-                        <button onClick={() => deleteSport(sport.id)} style={{ color: 'red' }}>Supprimer</button>
-                    </li>
-                ))}
-            </ul>
+                <section className="list-section">
+                    <h3>Liste des sports</h3>
+                    {sports.length === 0 ? (
+                        <p className="empty-state">Aucun sport enregistré.</p>
+                    ) : (
+                        <ul className="modern-list">
+                            {sports.map((sport) => (
+                                <li key={sport.id} className="list-item">
+                                    <div className="item-info">
+                                        <span className="item-name">{sport.nom}</span>
+                                        <span className={`item-badge ${sport.type.toLowerCase()}`}>{sport.type}</span>
+                                    </div>
+                                    <button
+                                        onClick={() => deleteSport(sport.id)}
+                                        className="delete-btn"
+                                        aria-label={`Supprimer ${sport.nom}`}
+                                    >
+                                        Supprimer
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </section>
+            </div>
         </div>
     );
 }

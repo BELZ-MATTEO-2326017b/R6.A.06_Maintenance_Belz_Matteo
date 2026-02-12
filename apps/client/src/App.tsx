@@ -1,22 +1,22 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Sports from './pages/Sports'
 import Competitions from './pages/Competitions'
+import About from './pages/About'
+import Layout from './components/Layout'
 import './App.css'
 
 function App() {
   return (
     <BrowserRouter>
-      <nav style={{ padding: '1rem', borderBottom: '1px solid #ccc', marginBottom: '2rem' }}>
-        <Link to="/" style={{ marginRight: '1rem' }}>Accueil</Link>
-        <Link to="/sports" style={{ marginRight: '1rem' }}>Sports</Link>
-        <Link to="/competitions">Championnats</Link>
-      </nav>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/sports" element={<Sports />} />
-        <Route path="/competitions" element={<Competitions />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/sports" element={<Sports />} />
+          <Route path="/competitions" element={<Competitions />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   )
 }

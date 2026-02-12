@@ -61,7 +61,12 @@ describe('CompetitionsService', () => {
 
   describe('findOne', () => {
     it('should return a competition by id with relations', async () => {
-      const expected = { id: 'uuid-1', nom: 'Tournoi', epreuves: [], championnat: {} };
+      const expected = {
+        id: 'uuid-1',
+        nom: 'Tournoi',
+        epreuves: [],
+        championnat: {},
+      };
       mockPrisma.competition.findUnique.mockResolvedValue(expected);
 
       const result = await service.findOne('uuid-1');
@@ -89,7 +94,9 @@ describe('CompetitionsService', () => {
 
       const result = await service.remove('uuid-1');
 
-      expect(mockPrisma.competition.delete).toHaveBeenCalledWith({ where: { id: 'uuid-1' } });
+      expect(mockPrisma.competition.delete).toHaveBeenCalledWith({
+        where: { id: 'uuid-1' },
+      });
       expect(result).toEqual(expected);
     });
   });
