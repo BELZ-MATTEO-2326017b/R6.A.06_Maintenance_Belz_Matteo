@@ -15,14 +15,14 @@ export class ChampionnatsService {
 
     async findAll(): Promise<Championnat[]> {
         return this.prisma.championnat.findMany({
-            include: { competitions: true },
+            include: { competitions: { include: { sport: true } } },
         });
     }
 
     async findOne(id: string): Promise<Championnat | null> {
         return this.prisma.championnat.findUnique({
             where: { id },
-            include: { competitions: true },
+            include: { competitions: { include: { sport: true } } },
         });
     }
 

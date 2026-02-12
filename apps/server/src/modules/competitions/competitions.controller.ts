@@ -7,7 +7,7 @@ export class CompetitionsController {
     constructor(private readonly competitionsService: CompetitionsService) { }
 
     @Post()
-    create(@Body() body: { nom: string; championnatId?: string }) {
+    create(@Body() body: { nom: string; sportId: string; championnatId?: string }) {
         return this.competitionsService.create(body);
     }
 

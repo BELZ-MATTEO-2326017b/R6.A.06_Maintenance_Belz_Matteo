@@ -1,13 +1,13 @@
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { Sport, SportType } from '@prisma/client';
+import { Sport } from '@prisma/client';
 
 @Injectable()
 export class SportsService {
     constructor(private prisma: PrismaService) { }
 
-    async create(data: { nom: string; type: SportType }): Promise<Sport> {
+    async create(data: { nom: string; type: string }): Promise<Sport> {
         return this.prisma.sport.create({
             data,
         });

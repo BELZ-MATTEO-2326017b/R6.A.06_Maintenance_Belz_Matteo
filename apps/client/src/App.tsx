@@ -10,7 +10,7 @@ function App() {
       <nav style={{ padding: '1rem', borderBottom: '1px solid #ccc', marginBottom: '2rem' }}>
         <Link to="/" style={{ marginRight: '1rem' }}>Accueil</Link>
         <Link to="/sports" style={{ marginRight: '1rem' }}>Sports</Link>
-        <Link to="/competitions">Compétitions</Link>
+        <Link to="/competitions">Championnats</Link>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />

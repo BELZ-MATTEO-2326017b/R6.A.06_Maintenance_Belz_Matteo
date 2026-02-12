@@ -7,7 +7,7 @@ import { Competition } from '@prisma/client';
 export class CompetitionsService {
     constructor(private prisma: PrismaService) { }
 
-    async create(data: { nom: string; championnatId?: string }): Promise<Competition> {
+    async create(data: { nom: string; sportId: string; championnatId?: string }): Promise<Competition> {
         return this.prisma.competition.create({
             data,
         });
@@ -15,14 +15,14 @@ export class CompetitionsService {
 
     async findAll(): Promise<Competition[]> {
         return this.prisma.competition.findMany({
-            include: { championnat: true, epreuves: true }
+            include: { championnat: true, epreuves: true, sport: true }
         });
     }
 
     async findOne(id: string): Promise<Competition | null> {
         return this.prisma.competition.findUnique({
             where: { id },
-            include: { epreuves: true },
+            include: { epreuves: true, sport: true },
         });
     }
 
