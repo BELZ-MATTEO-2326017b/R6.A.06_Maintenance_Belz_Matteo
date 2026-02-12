@@ -11,4 +11,4 @@ import { ChampionnatsModule } from './modules/championnats/championnats.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
