@@ -6,21 +6,16 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model Sport {
-  id       String    @id @default(uuid())
-  nom      String
-  type     SportType
-  epreuves Epreuve[]
-}
-
-enum SportType {
-  INDIV
-  EQUIPE
-  MIXTE
+  id           String        @id @default(uuid())
+  nom          String
+  type         String
+  epreuves     Epreuve[]
+  competitions Competition[]
 }
 
 model Championnat {
@@ -32,6 +27,8 @@ model Championnat {
 model Competition {
   id            String       @id @default(uuid())
   nom           String
+  sportId       String
+  sport         Sport        @relation(fields: [sportId], references: [id])
   championnatId String?
   championnat   Championnat? @relation(fields: [championnatId], references: [id])
   epreuves      Epreuve[]
