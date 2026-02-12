@@ -36,6 +36,7 @@ ugsel/
 Installez toutes les dépendances du projet depuis la racine :
 ```bash
 npm install
+npx prisma generate
 ```
 
 ### Lancement en Développement
