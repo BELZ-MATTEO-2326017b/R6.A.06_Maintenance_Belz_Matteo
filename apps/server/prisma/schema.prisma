@@ -15,20 +15,20 @@ model Sport {
   nom          String
   type         String
   epreuves     Epreuve[]
-  competitions Competition[]
+  championnats Championnat[]
 }
 
 model Championnat {
   id           String        @id @default(uuid())
   nom          String
+  sportId      String
+  sport        Sport         @relation(fields: [sportId], references: [id])
   competitions Competition[]
 }
 
 model Competition {
   id            String       @id @default(uuid())
   nom           String
-  sportId       String
-  sport         Sport        @relation(fields: [sportId], references: [id])
   championnatId String?
   championnat   Championnat? @relation(fields: [championnatId], references: [id])
   epreuves      Epreuve[]

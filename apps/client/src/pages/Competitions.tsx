@@ -11,12 +11,13 @@ interface Sport {
 interface Competition {
     id: string;
     nom: string;
-    sport: Sport;
+    championnatId?: string;
 }
 
 interface Championnat {
     id: string;
     nom: string;
+    sport: Sport;
     competitions: Competition[];
 }
 
@@ -24,10 +25,8 @@ function Competitions() {
     const [championnats, setChampionnats] = useState<Championnat[]>([]);
     const [sports, setSports] = useState<Sport[]>([]);
     const [nomChamp, setNomChamp] = useState('');
-
-    // For adding a competition to a championship
+    const [sportChamp, setSportChamp] = useState('');
     const [newCompNames, setNewCompNames] = useState<{ [key: string]: string }>({});
-    const [newCompSportIds, setNewCompSportIds] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         fetchChampionnats();
@@ -55,8 +54,9 @@ function Competitions() {
     const createChampionnat = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:3000/championnats', { nom: nomChamp });
+            await axios.post('http://localhost:3000/championnats', { nom: nomChamp, sportId: sportChamp });
             setNomChamp('');
+            setSportChamp('');
             fetchChampionnats();
         } catch (error) {
             console.error('Error creating championnat', error);
@@ -74,15 +74,13 @@ function Competitions() {
 
     const createCompetition = async (championnatId: string) => {
         const nom = newCompNames[championnatId];
-        const sportId = newCompSportIds[championnatId];
-        if (!nom || !sportId) {
-            alert('Veuillez renseigner un nom et sélectionner un sport.');
+        if (!nom) {
+            alert('Veuillez renseigner un nom.');
             return;
         }
         try {
-            await axios.post('http://localhost:3000/competitions', { nom, sportId, championnatId });
+            await axios.post('http://localhost:3000/competitions', { nom, championnatId });
             setNewCompNames({ ...newCompNames, [championnatId]: '' });
-            setNewCompSportIds({ ...newCompSportIds, [championnatId]: '' });
             fetchChampionnats();
         } catch (error) {
             console.error('Error creating competition', error);
@@ -110,6 +108,17 @@ function Competitions() {
                     required
                     style={{ padding: '5px' }}
                 />
+                <select
+                    value={sportChamp}
+                    onChange={(e) => setSportChamp(e.target.value)}
+                    required
+                    style={{ padding: '5px' }}
+                >
+                    <option value="">-- Sélectionner un Sport --</option>
+                    {sports.map((sport) => (
+                        <option key={sport.id} value={sport.id}>{sport.nom}</option>
+                    ))}
+                </select>
                 <button type="submit" style={{ padding: '5px 10px' }}>Créer Championnat</button>
             </form>
 
@@ -117,7 +126,7 @@ function Competitions() {
                 {championnats.map((champ) => (
                     <div key={champ.id} style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '5px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                            <h3>{champ.nom}</h3>
+                            <h3>{champ.nom} {champ.sport && <span style={{ fontSize: '0.8em', color: '#666' }}>({champ.sport.nom})</span>}</h3>
                             <button onClick={() => deleteChampionnat(champ.id)} style={{ color: 'red' }}>Supprimer Championnat</button>
                         </div>
 
@@ -128,11 +137,6 @@ function Competitions() {
                                     <li key={comp.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
                                         <span>
                                             <strong>{comp.nom}</strong>
-                                            {comp.sport && (
-                                                <span style={{ marginLeft: '0.5rem', color: '#666', fontSize: '0.9rem' }}>
-                                                    ({comp.sport.nom})
-                                                </span>
-                                            )}
                                         </span>
                                         <button onClick={() => deleteCompetition(comp.id)} style={{ color: 'red', fontSize: '0.8rem' }}>Suppr.</button>
                                     </li>
@@ -145,18 +149,6 @@ function Competitions() {
                                     placeholder="Nouvelle compétition"
                                     style={{ padding: '2px' }}
                                 />
-                                <select
-                                    value={newCompSportIds[champ.id] || ''}
-                                    onChange={(e) => setNewCompSportIds({ ...newCompSportIds, [champ.id]: e.target.value })}
-                                    style={{ padding: '2px' }}
-                                >
-                                    <option value="">-- Sport --</option>
-                                    {sports.map((sport) => (
-                                        <option key={sport.id} value={sport.id}>
-                                            {sport.nom}
-                                        </option>
-                                    ))}
-                                </select>
                                 <button onClick={() => createCompetition(champ.id)}>Ajouter</button>
                             </div>
                         </div>
